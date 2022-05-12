@@ -9,9 +9,9 @@ $developer = true;
 if($developer){
 //Databasanslutning lokal server
 define("DBHOST", "localhost");
-define("DBUSER", "courseapi");
+define("DBUSER", "restaurant");
 define("DBPASS", "Password");
-define("DBDATABASE", "courseapi");
+define("DBDATABASE", "restaurant");
 // Aktiverar Felmeddelanden 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
