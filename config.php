@@ -9,9 +9,9 @@ $developer = true;
 if($developer){
 //Databasanslutning lokal server
 define("DBHOST", "localhost");
-define("DBUSER", "restaurant");
+define("DBUSER", "Admin");
 define("DBPASS", "Password");
-define("DBDATABASE", "restaurant");
+define("DBDATABASE", "admin");
 // Aktiverar Felmeddelanden 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -24,6 +24,4 @@ define("DBUSER", 'emfo2102');
 define("DBPASS", 'X8jyGSt@dW');
 define("DBDATABASE", 'emfo2102');
 }
-?>
-
 ?>
