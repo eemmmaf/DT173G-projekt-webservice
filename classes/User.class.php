@@ -17,6 +17,16 @@ class User
         }
     }
 
+    public function setToken(string $token)
+    {
+        if ($token != null || "") {
+            $this->token = $token;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Funktion för att generera en token vid inloggning
     public function createToken(string $username): string
     {
@@ -27,30 +37,37 @@ class User
             $generating = mt_rand(0, $max);
             $token .= $characters[$generating];
         }
+        return $token;
 
-        $sql = "UPDATE user SET user_token='$token' WHERE username='$username'";
-
-        $result = $this->db->query($sql);
-
-        return $result;
+        $sql = "INSERT INTO tokens(token, usersname) VALUES('$token', '$username')";
+        return mysqli_query($this->db, $sql);
     }
+
+
 
     //Funktion för att se om token finns i databasen
     public function validateToken(string $token)
     {
+
         //SQL-fråga
-        $sql = "SELECT * FROM user WHERE token='$token'";
+        $sql = "SELECT * FROM tokens WHERE token='$token'";
 
         $result = $this->db->query($sql);
 
-        return $result;
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $token = $row['token'];
+            true;
+        } else {
+            return false;
+        }
     }
 
     //Metod för att ta bort token när användaren loggar ut
     public function deleteToken($username)
     {
 
-        $sql = "UPDATE user set user_token=NULL WHERE username='$username'";
+        $sql = "UPDATE tokens set token=NULL WHERE usersname='$username'";
 
 
         $result = $this->db->query($sql);
@@ -76,18 +93,6 @@ class User
             return false;
         }
     }
-
-    public function setToken(string $token)
-    {
-        if ($token != "") {
-            $this->token = $token;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
 
     //Metod för att logga in 
     public function logIn(string $username, string $password): bool
