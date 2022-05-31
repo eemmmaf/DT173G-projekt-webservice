@@ -1,21 +1,14 @@
 <?php
-include_once('config.php');
-/*Headers med inställningar för din REST webbtjänst*/
+include('includes/settings.php');
+if (!isset($_SERVER['HTTP_TOKEN'])) {
+    $response = array('message' => 'Ingen token finns');
+    http_response_code(401);
+    exit;
+} else {
+    $token = $_SERVER['HTTP_TOKEN'];
+    $user = new User();
+}
 
-//Använder asterisk så att webbtjänsten går att komma åt från alla domäner
-header('Access-Control-Allow-Origin: *');
-
-//Skickar datan i json-format
-header('Content-Type: application/json');
-
-//Metoderna som accepteras
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
-
-//Vilka headers som är tillåtna vcode anrop från klient-scodean, kan bli problem med CORS (Cross-Origin Resource Sharing) utan denna.
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
-
-//Läser in vilken metod som skickats och lagrar i en variabel
-$method = $_SERVER['REQUEST_METHOD'];
 
 //Om en parameter av code finns i urlen lagras det i en variabel
 if (isset($_GET['food_id'])) {
@@ -24,7 +17,7 @@ if (isset($_GET['food_id'])) {
 
 
 //Skapar en instans av klassen food
-$food = new Food;
+$food = new Food();
 
 
 switch ($method) {

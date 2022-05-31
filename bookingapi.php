@@ -1,21 +1,24 @@
 <?php
-include_once('config.php');
-/*Headers med inställningar för din REST webbtjänst*/
+include('includes/settings.php');
 
-//Använder asterisk så att webbtjänsten går att komma åt från alla domäner
-header('Access-Control-Allow-Origin: *');
+if (!isset($_SERVER['HTTP_TOKEN'])) {
+    $response = array('message' => 'Ingen token finns');
+    http_response_code(401);
+    exit;
+} else {
+    $token = $_SERVER['HTTP_TOKEN'];
+    $user = new User();
 
-//Skickar datan i json-format
-header('Content-Type: application/json');
+    if(!$user->validateToken($token)){
+        $response = array('message' => 'Invalid token');
+        json_encode($response);
+        http_response_code(403);
+        exit;
+    }
+}
 
-//Metoderna som accepteras
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 
-//Vilka headers som är tillåtna vcode anrop från klient-scodean, kan bli problem med CORS (Cross-Origin Resource Sharing) utan denna.
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-//Läser in vilken metod som skickats och lagrar i en variabel
-$method = $_SERVER['REQUEST_METHOD'];
 
 //Om en parameter av code finns i urlen lagras det i en variabel
 if (isset($_GET['booking_id'])) {
@@ -23,7 +26,7 @@ if (isset($_GET['booking_id'])) {
 }
 
 //Skapar en instans av klassen booking
-$booking = new Booking;
+$booking = new Booking();
 
 
 switch ($method) {
@@ -52,17 +55,17 @@ switch ($method) {
         $success = true; //Variabel för när det postade är OK
         if (!$booking->setBooking($data['booking_date'], $data['booking_time'], $data['guest_fname'], $data['guest_ename'], $data['guest_email'], $data['guest_text'], $data['quantity'])) {
             $success = false;
-            $response = array("message" => "Fyll i fälten");
+            $response = array("message" => "Kontrollera fälten och försök igen");
             http_response_code(400); //400 = Bad request för ej korrekt inmatning
         }
 
         if ($success = true) {
             if ($booking->addBooking($data['booking_date'], $data['booking_time'], $data['guest_fname'], $data['guest_ename'], $data['guest_email'], $data['guest_text'], $data['quantity'])) {
-                $response = array("message" => "Bokningen har lagrats");
+                $response = array("message" => "Tack för din bokning!");
                 http_response_code(201); //201 = Created success
             } else {
                 http_response_code(500);
-                $response = array("message" => "Fel vid lagring");
+                $response = array("message" => "Fel vid bokning");
             }
         }
         break;
