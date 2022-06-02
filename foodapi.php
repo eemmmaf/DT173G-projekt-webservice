@@ -1,14 +1,5 @@
 <?php
 include('includes/settings.php');
-if (!isset($_SERVER['HTTP_TOKEN'])) {
-    $response = array('message' => 'Ingen token finns');
-    http_response_code(401);
-    exit;
-} else {
-    $token = $_SERVER['HTTP_TOKEN'];
-    $user = new User();
-}
-
 
 //Om en parameter av code finns i urlen lagras det i en variabel
 if (isset($_GET['food_id'])) {

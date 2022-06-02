@@ -17,64 +17,6 @@ class User
         }
     }
 
-    public function setToken(string $token)
-    {
-        if ($token != null || "") {
-            $this->token = $token;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //Funktion för att generera en token vid inloggning
-    public function createToken(string $username): string
-    {
-        $token = "";
-        $characters = array_merge(range('A', 'Z'), range('a', 'z'), range('0', '9'));
-        $max = count($characters) - 1;
-        for ($i = 0; $i < 32; $i++) {
-            $generating = mt_rand(0, $max);
-            $token .= $characters[$generating];
-        }
-        return $token;
-
-        $sql = "INSERT INTO tokens(token, usersname) VALUES('$token', '$username')";
-        return mysqli_query($this->db, $sql);
-    }
-
-
-
-    //Funktion för att se om token finns i databasen
-    public function validateToken(string $token)
-    {
-
-        //SQL-fråga
-        $sql = "SELECT * FROM tokens WHERE token='$token'";
-
-        $result = $this->db->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $token = $row['token'];
-            true;
-        } else {
-            return false;
-        }
-    }
-
-    //Metod för att ta bort token när användaren loggar ut
-    public function deleteToken($username)
-    {
-
-        $sql = "UPDATE tokens set token=NULL WHERE usersname='$username'";
-
-
-        $result = $this->db->query($sql);
-
-        return $result;
-    }
-
 
     //Setmetod för att kolla så att inte fältet är tomt
     public function setUser(string $username, string $password): bool
@@ -83,16 +25,40 @@ class User
             $this->username = $username;
             $this->password = $password;
 
-            $username = $this->db->real_escape_string($username);
-            $password = $this->db->real_escape_string($password);
-
-            $username = strip_tags($username);
-            $password = strip_tags($password);
             return true;
         } else {
             return false;
         }
     }
+
+    //Metod för att registrera användare
+    public function registerUser($username, $password)
+    {
+
+
+        //Kontrollerar om set-metoder är uppfyllda
+        if (!$this->setUser($username, $password));
+
+
+        //Hashar lösenordet
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        //Använder real_escape_string för att undvika att skadlig kod hamnar i databasen
+        $username = $this->db->real_escape_string($username);
+        $password = $this->db->real_escape_string($password);
+
+        //Använder strip_tags för att ta bort HTML-taggar
+        $username = strip_tags($username);
+        $password = strip_tags($password);
+
+
+        $sql = "INSERT INTO user(username, password) VALUES('$username', '$hashed_password')";
+
+        $result = $this->db->query($sql);
+
+        return $result;
+    }
+
 
     //Metod för att logga in 
     public function logIn(string $username, string $password): bool
@@ -100,6 +66,12 @@ class User
 
         //Kontrollerar om set-metoder är uppfyllda
         if (!$this->setUser($username, $password)) return false;
+
+        $username = $this->db->real_escape_string($username);
+        $password = $this->db->real_escape_string($password);
+
+        $username = strip_tags($username);
+        $password = strip_tags($password);
 
 
         //SQL-fråga
@@ -111,7 +83,8 @@ class User
             $stored_password = $row['password'];
 
             //Kontrollerar det inmatade lösenordet mot det lagrade lösenordet
-            if ($password == $stored_password) {
+            if (password_verify($password, $stored_password)) {
+                $_SESSION['admin'] = $username;
                 return true;
             } else {
                 return false;
