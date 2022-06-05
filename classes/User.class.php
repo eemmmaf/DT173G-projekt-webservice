@@ -52,6 +52,7 @@ class User
         $password = strip_tags($password);
 
 
+        //SQL-fråga
         $sql = "INSERT INTO user(username, password) VALUES('$username', '$hashed_password')";
 
         $result = $this->db->query($sql);
