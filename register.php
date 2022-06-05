@@ -20,6 +20,7 @@ if (isset($_POST['username'])) {
 ?>
     
     
+    <!--Formulär-->
     <form action="register.php" method="POST" id="register">
         <!--Epost-->
         <label for="username">Användarnamn:</label><br>
