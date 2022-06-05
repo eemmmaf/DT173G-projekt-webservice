@@ -37,7 +37,7 @@ switch ($method) {
         $success = true; //Variabel för när det postade är OK
         if (!$food->setFood($data['food_name'], $data['food_description'], $data['food_price'], $data['food_category_id'], $data['food_type_id'])) {
             $success = false;
-            $response = array("message" => "Fyll i fälten");
+            $response = array("message" => "Kontrollera fälten och fyll i alla fälten");
             http_response_code(400); //400 = Bad request för ej korrekt inmatning
         }
 
@@ -47,7 +47,7 @@ switch ($method) {
                 http_response_code(201); //201 = Created success
             } else {
                 http_response_code(500);
-                $response = array("message" => "Fel vid lagring");
+                $response = array("message" => "Fel vid lagring. Kontrollera alla fält och försök igen");
             }
         }
         break;

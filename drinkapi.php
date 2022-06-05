@@ -6,7 +6,7 @@ if (isset($_GET['drink_id'])) {
     $drink_id = $_GET['drink_id'];
 }
 
-if(isset($_GET['drink_category_id'])) {
+if (isset($_GET['drink_category_id'])) {
     $drink_category = $_GET['drink_category_id'];
 }
 
@@ -23,9 +23,9 @@ switch ($method) {
             $response = $drink->getDrinks();
         }
 
-        if(isset($drink_category)) {
+        if (isset($drink_category)) {
             $response = $drink->getDrinkByCategory($drink_category);
-        }else{
+        } else {
             $response = $drink->getDrinks();
         }
 
@@ -55,7 +55,7 @@ switch ($method) {
                 http_response_code(201); //201 = Created success
             } else {
                 http_response_code(500);
-                $response = array("message" => "Fel vid lagring");
+                $response = array("message" => "Fel vid lagring. Kontrollera att alla fält är ifyllda");
             }
         }
         break;
@@ -74,7 +74,7 @@ switch ($method) {
         }
 
         if ($success = true) {
-            if ($drink->updateDrink($drink_id, $data['drink_name'], $data['drink_description'], $data['drink_price'], $data['drink_category_id'])) {
+            if ($drink->updateDrink($data['drink_id'], $data['drink_name'], $data['drink_description'], $data['drink_price'], $data['drink_category_id'])) {
                 $response = array("message" => "Drycken har uppdaterats");
                 http_response_code(200); //200 = OK request
             } else {

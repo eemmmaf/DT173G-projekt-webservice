@@ -63,7 +63,7 @@ switch ($method) {
                 http_response_code(201); //201 = Created success
             } else {
                 http_response_code(500);
-                $response = array("message" => "Fel vid bokning");
+                $response = array("message" => "Fel vid bokning. Kontrollera alla fälten och försök igen");
             }
         }
         break;
@@ -81,7 +81,7 @@ switch ($method) {
         }
 
         if ($success = true) {
-            if ($booking->updateBooking($booking_id, $data['booking_date'], $data['booking_time'], $data['guest_fname'], $data['guest_ename'], $data['guest_email'], $data['guest_text'], $data['quantity'])) {
+            if ($booking->updateBooking($data['booking_id'], $data['booking_date'], $data['booking_time'], $data['guest_fname'], $data['guest_ename'], $data['guest_email'], $data['guest_text'], $data['quantity'])) {
                 $response = array("message" => "Bokningen har uppdaterats");
                 http_response_code(200); //200 = OK request
             } else {
@@ -94,11 +94,11 @@ switch ($method) {
     case 'DELETE':
         if (!isset($booking_id)) {
             http_response_code(400);
-            $response = array("message" => "Ingen maträtt har valts. Välj den maträtt som ska raderas");
+            $response = array("message" => "Ingen bokning har valts. Välj den maträtt som ska raderas");
         } else {
             if ($booking->deleteBooking($booking_id))
                 http_response_code(200); //Lyckad borttagning
-            $response = array("message" => "Maträtten har raderats från databasen");
+            $response = array("message" => "bokningen har raderats från databasen");
         }
         break;
 }
