@@ -1,5 +1,5 @@
 <?php
-include_once('config.php');
+include_once('includes/config.php');
 /*Headers med inställningar för din REST webbtjänst*/
 
 //Använder asterisk så att webbtjänsten går att komma åt från alla domäner
