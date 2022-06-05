@@ -17,40 +17,40 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 //Läser in vilken metod som skickats och lagrar i en variabel
 $method = $_SERVER['REQUEST_METHOD'];
 
-
-//Skapar en instans av klassen booking
+//Skapar instans av klassen User
 $user = new User();
-switch ($method) {
-    case 'GET':
-        http_response_code(200);
-        if (isset($data['username'])) {
-            $user->deleteToken($username);
-            $response = array('message' => 'Utloggningen lyckades');
-        } else {
-            $response = array('message' => 'Utloggningen har misslyckats');
-        }
-        break;
 
-        //Post
-    case 'POST':
-        //Läser in JSON-data skickad med anropet och omvandlar till ett objekt.
-        $data = json_decode(file_get_contents("php://input"), true);
 
-        //Kontrollerar inloggning
-        if (isset($data['username'], $data['password'])) {
-            if ($user->logIn($data['username'], $data['password'])) {
-                //Genererar en token
-                $token = $user->createToken($data['username']);
-                $response = array('message' => 'Lyckad inloggning', "token" => $token);
-                http_response_code(200); //Response code för lyckad inloggning
-            } else {
-                $response = array('status' => false, 'message' => 'Inloggning misslyckades');
-                http_response_code(403); //Kod för misslyckad inloggning
-            }
-        }
-        break;
+//Om annan metod än POST skickats skickas felmeddelande
+if($method != "POST") {
+    http_response_code(405); //Method not allowed
+    $response = array("message" => "Endast metoden POST tillåts");
+    echo json_encode($response);
+    exit;
 }
 
+//Omvandlar body från JSON
+$data = json_decode(file_get_contents("php://input"), true);
+
+//Kontroll att username och password skickats med
+if(isset($data["username"]) && isset($data["password"])) {
+    $username = $data["username"];
+    $password = $data["password"];
+} else {
+    http_response_code(400); //Bad request
+    $response = array("message" => "Skicka med användarnamn och lösenord");
+    echo json_encode($response);
+    exit;
+}
+
+//Kontrollerar att användarnamn och lösenord är giltiga
+if($user->logIn($username, $password)) {
+    $response = array("message" => "Du är inloggad", "user" => true);
+    http_response_code(200); //Ok
+} else {
+    $response = array("message" => "Felaktigt användarnamn eller lösenord");
+    http_response_code(401); //Unauthorized
+}
 
 //Skickar svar tillbaka till avsändaren
 echo json_encode($response);
