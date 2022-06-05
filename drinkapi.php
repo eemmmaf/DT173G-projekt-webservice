@@ -1,4 +1,5 @@
 <?php
+include('includes/config.php');
 include('includes/settings.php');
 
 //Om en parameter av code finns i urlen lagras det i en variabel
@@ -6,9 +7,6 @@ if (isset($_GET['drink_id'])) {
     $drink_id = $_GET['drink_id'];
 }
 
-if (isset($_GET['drink_category_id'])) {
-    $drink_category = $_GET['drink_category_id'];
-}
 
 //Skapar en instans av klassen drink
 $drink = new Drink();
@@ -19,12 +17,6 @@ switch ($method) {
 
         if (isset($drink_id)) {
             $response = $drink->getDrinkById($drink_id);
-        } else {
-            $response = $drink->getDrinks();
-        }
-
-        if (isset($drink_category)) {
-            $response = $drink->getDrinkByCategory($drink_category);
         } else {
             $response = $drink->getDrinks();
         }
