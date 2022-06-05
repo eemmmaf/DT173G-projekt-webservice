@@ -49,7 +49,7 @@ class Drink
         $drink_name = $this->db->real_escape_string($drink_name);
         $drink_description = $this->db->real_escape_string($drink_description);
         $drink_price = $this->db->real_escape_string($drink_price);
-        $drink_price = $this->db->real_escape_string($drink_category);
+        $drink_category = $this->db->real_escape_string($drink_category);
 
         //Använder strip_tags för att ta bort HTML-taggar
         $drink_name = strip_tags($drink_name);
