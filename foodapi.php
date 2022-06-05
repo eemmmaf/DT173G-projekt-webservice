@@ -1,4 +1,5 @@
 <?php
+include('includes/config.php');
 include('includes/settings.php');
 
 //Om en parameter av code finns i urlen lagras det i en variabel

@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('includes/config.php');
 //Anslut
 $db = new mysqli(DBHOST, DBUSER, DBPASS, DBDATABASE);
 if ($db->connect_errno > 0) {
@@ -40,7 +40,8 @@ $sql .= "CREATE TABLE booking(
     guest_ename varchar(128) NOT NULL,
     guest_email varchar(128) NOT NULL,
     guest_text TEXT,
-    quantity INT(2) NOT NULL
+    quantity INT(2) NOT NULL,
+    created timestamp NOT NULL DEFAULT current_timestamp()
     );";
 
 $sql .= "DROP TABLE IF EXISTS food_category, drink_category, food_type, drink_type;";
