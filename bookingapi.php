@@ -1,24 +1,8 @@
 <?php
-include('config.php');
-/*Headers med inställningar för din REST webbtjänst*/
+include('includes/config.php');
+include('includes/settings.php');
 
-//Använder asterisk så att webbtjänsten går att komma åt från alla domäner
-header('Access-Control-Allow-Origin: *');
-
-//Skickar datan i json-format
-header('Content-Type: application/json');
-
-//Metoderna som accepteras
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
-
-//Vilka headers som är tillåtna vcode anrop från klient-scodean, kan bli problem med CORS (Cross-Origin Resource Sharing) utan denna.
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
-
-//Läser in vilken metod som skickats och lagrar i en variabel
-$method = $_SERVER['REQUEST_METHOD'];
-
-
-//Om en parameter av code finns i urlen lagras det i en variabel
+//Om en parameter av booking_id finns i urlen lagras det i en variabel
 if (isset($_GET['booking_id'])) {
     $booking_id = $_GET['booking_id'];
 }
@@ -35,7 +19,7 @@ switch ($method) {
         } else {
             $response = $booking->getBookings();
         }
-        
+
 
         if (count($response) === 0) {
             $response = array("message" => "Det finns inga bokningar lagrade i databasen");
