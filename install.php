@@ -13,8 +13,8 @@ $sql .= "
 CREATE TABLE drink(
     drink_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     drink_name VARCHAR(128) NOT NULL,
-    drink_description TEXT,
-    drink_price INT(11), 
+    drink_description TEXT NOT NULL,
+    drink_price VARCHAR(128) NOT NULL, 
     drink_category_id INT(11) NOT NULL
     ); 
 ";
@@ -24,8 +24,8 @@ $sql .= "DROP TABLE IF EXISTS food;";
 $sql .= "CREATE TABLE food(
     food_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
     food_name VARCHAR(128) NOT NULL,
-    food_description TEXT,
-    food_price INT(11),
+    food_description TEXT NOT NULL,
+    food_price VARCHAR(128) NOT NULL,
     food_category_id INT(11) NOT NULL,
     food_type_id INT(11) NOT NULL
     );";
@@ -39,7 +39,7 @@ $sql .= "CREATE TABLE booking(
     guest_fname varchar(128) NOT NULL,
     guest_ename varchar(128) NOT NULL,
     guest_email varchar(128) NOT NULL,
-    guest_text TEXT NULL DEFAULT 'Inget önskemål',
+    guest_text TEXT,
     quantity INT(2) NOT NULL
     );";
 
@@ -63,10 +63,6 @@ $sql .= "CREATE TABLE user(
     username VARCHAR(128) NOT NULL PRIMARY KEY,
     password VARCHAR(128));";
 
-$sql .= "CREATE TABLE tokens(
-        token_id INT(11) NOT NULL PRIMARY KEY,
-        token VARCHAR(128));";
-
 //Lägger till foreign keys till mat och drink
 
 $sql .=
@@ -84,7 +80,6 @@ ADD FOREIGN KEY (drink_category_id) REFERENCES drink_category(drink_category_id)
 $sql .= "INSERT INTO food_category (food_category_id, food_category_name) VALUES (1, 'Förrätt'), (2, 'Varmrätt'), (3, 'Efterrätt');";
 $sql .= "INSERT INTO food_type(food_type_id, food_type_name) VALUES (1,'Grill'), (2, 'Pasta'), (3, 'Pizza'), (4, 'Sött'), (5, 'Förrätt');";
 $sql .= "INSERT INTO drink_category (drink_category_id, drink_category_name) VALUES ('1','Vitt vin'), (2, 'Rött vin'), (3, 'Öl'), (4, 'Alkoholfritt');";
-
 
 echo "<pre> $sql </pre>";
 
