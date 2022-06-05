@@ -52,13 +52,13 @@ class Booking
         if (!$this->setBooking($booking_date, $booking_time, $guest_fname, $guest_ename, $guest_email, $guest_text, $quantity)) return false;
 
         //Använder real_escape_string för att undvika att skadlig kod hamnar i databasen
-        $this->db->real_escape_string($booking_date);
-        $this->db->real_escape_string($booking_time);
-        $this->db->real_escape_string($guest_fname);
-        $this->db->real_escape_string($guest_ename);
-        $this->db->real_escape_string($guest_email);
-        $this->db->real_escape_string($guest_text);
-        $this->db->real_escape_string($quantity);
+        $booking_date = $this->db->real_escape_string($booking_date);
+        $booking_time = $this->db->real_escape_string($booking_time);
+        $guest_fname = $this->db->real_escape_string($guest_fname);
+        $guest_ename = $this->db->real_escape_string($guest_ename);
+        $guest_email = $this->db->real_escape_string($guest_email);
+        $guest_text = $this->db->real_escape_string($guest_text);
+        $quantity = $this->db->real_escape_string($quantity);
 
         //Använder strip_tags för att ta bort HTML-taggar
         $booking_date = strip_tags($booking_date);
