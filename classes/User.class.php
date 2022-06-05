@@ -4,7 +4,6 @@ class User
     private $username;
     private $password;
     private $db;
-    private $token;
 
     //Konstruktor med databasanslutning
     function __construct()
