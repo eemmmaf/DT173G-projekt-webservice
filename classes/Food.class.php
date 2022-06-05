@@ -23,7 +23,7 @@ class Food
     }
 
     // ----Set-metod---- //
-    public function setFood(string $food_name, string $food_description, int $food_price, int $food_category, int $food_type): bool
+    public function setFood(string $food_name, string $food_description, string $food_price, int $food_category, int $food_type): bool
     {
         if ($food_name && $food_description && $food_price && $food_category && $food_type != "") {
             $this->food_name = $food_name;

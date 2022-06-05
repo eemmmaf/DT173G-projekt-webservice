@@ -22,7 +22,7 @@ class Drink
     }
 
     // ----Set-metod---- //
-    public function setDrink(string $drink_name, string $drink_description, int $drink_price, int $drink_category): bool
+    public function setDrink(string $drink_name, string $drink_description, string $drink_price, int $drink_category): bool
     {
         if ($drink_name && $drink_description && $drink_price && $drink_category != "") {
             $this->drink_name = $drink_name;
@@ -57,7 +57,7 @@ class Drink
         $drink_price = strip_tags($drink_price);
         $drink_category = strip_tags($drink_category);
 
-        $sql = "INSERT INTO drink(drink_name, drink_description, drink_price, drink_category) VALUES('$drink_name', '$drink_description', '$drink_price', '$drink_category')";
+        $sql = "INSERT INTO drink(drink_name, drink_description, drink_price, drink_category_id) VALUES('$drink_name', '$drink_description', '$drink_price', '$drink_category')";
 
         $result = $this->db->query($sql);
 
