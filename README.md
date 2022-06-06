@@ -99,7 +99,7 @@ Denna klass hanterar maträtter
 ## Anvädning av API
 Här nedan visas hur de olika API:erna används med metoderna GET, POST, PUT, DELETE
 ### Bookingapi.php
-Länk till API: https://studenter.miun.se/~emfo2102/writeable/projekt_webservice/bookingapi.php)
+Länk till API: https://studenter.miun.se/~emfo2102/writeable/projekt_webservice/bookingapi.php
 
 | Metod  | Ändpunkt | Beskrivning |
 | ------ | ------------- | ------------- |
@@ -108,6 +108,20 @@ GET      | bookingapi.php?booking_id=booking_id|    Hämtar en specifik bokning 
 POST      | bookingapi.php|    Lagrar bokning, kräver att ett boknings-objekt skickas med |
 PUT     | bookingapi.php?booking_id=booking_id|    Uppdaterar specifik bokning. Kräver att ett boknings-objekt skickas med och dess booking_id    |
 DELETE | bookingapi.php?booking_id=booking_id | Raderar en bokning med angivet booking_id|
+
+Ett boknings-objekt returneras/skickas som JSON med följande struktur:
+```
+{
+"booking_id":"1",
+"booking_date":"2022-06-17",
+"booking_time":"21:00",
+"guest_fname":"Emma",
+"guest_ename":"Forslund",
+"guest_email":"emma-forslund-95@hotmail.com",
+"guest_text":"Bord vid fönstret","quantity":"7",
+"created":"2022-06-05 15:12:46"
+}
+```
 
 ### Foodapi.php
 Länk till API: https://studenter.miun.se/~emfo2102/writeable/projekt_webservice/foodapi.php
@@ -119,6 +133,17 @@ POST | foodapi.php |  Lagrar maträtt, kräver att ett maträtts-objekt skickas 
 PUT  | foodapi.php?food_id=food_id| Uppdaterar specifik maträtt. Kräver att ett maträtt-objekt skickas med och dess food_id   |
 DELETE | foodapi.php?food_id=food_id | Raderar en maträtt med angivet food_id|
 
+Ett mat-objekt returneras/skickas som JSON med följande struktur:
+```
+{"food_id":"2",
+"food_name":" Pizza Margarita ",
+"food_description":"Pizza med tomatsås och mozarella",
+"food_price":"99",
+"food_category_id":"2",
+"food_type_id":"1"}
+```
+
+
 ### Drinkapi.php
 Länk till API: https://studenter.miun.se/~emfo2102/writeable/projekt_webservice/drinkapi.php
 | Metod  | Ändpunkt | Beskrivning |
@@ -129,11 +154,43 @@ POST | drinkapi.php  |  Lagrar dryck, kräver att ett dryck-objekt skickas med |
 PUT  | drinkapi.php?drink_id=drink_id| Uppdaterar specifik dryck. Kräver att ett dryck-objekt skickas med och dess drink_id   |
 DELETE | drinkapi.php?drink_id=drink_id| Raderar en dryck med angivet drink_id|
 
+Ett dryck-objekt returneras/skickas som JSON med följande struktur:
+
+```
+{"drink_id":"10",
+"drink_name":"Savignon Blanc",
+"drink_description":"Friskt, vitt vin",
+"drink_price":"99",
+"drink_category_id":"3"
+}
+```
+
 ### Loginapi.php
 Länk till API: https://studenter.miun.se/~emfo2102/writeable/projekt_webservice/loginapi.php
 | Metod  | Ändpunkt | Beskrivning |
 | ------ | ------------- | ------------- |
 POST | loginapi.php | Loggar in användare. Detta är den enda tillåtna metoden| 
+
+### Settings
+Samtliga API:er har headers med inställningar för API:erna som inkluderas längst upp. Dessa headers är:
+* header('Access-Control-Allow-Origin: *') - Detta gör att webbtjänsten går att komma åt från alla domäner
+* header('Content-Type: application/json') - Datan skickas i JSON-format
+* header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With')- Headers som minimerar CORS-problem
+
+### Config.php
+Denna fil är en konfigureringsfil och innehåller konstanter till databas-anslutningen. Dessa konstanter beror på om det är localhost som används eller mittuniversitetets databas. Detta styrs med variabeln $devmode som antingen är true eller false. Vid uppladning till Mittuniversitetet ska den vara false och true för localhost. 
+
+## Register.php
+Denna fil innehåller funktionalitet för att skapa användare. På grund av tidsbrist har detta ännu inte implementerats för administrationsgränssnittet utan finns endast för utvecklaren. Denna fil har ingen style eller lösenordsskydd och därför har den inte laddats upp publikt utan används endast av utvecklaren. På denna sida går det att registrera användare och användarens lösenord blir hashat. 
+
+## Klona detta repo
+git clone https://github.com/Webbutvecklings-programmet/projekt_webservice_vt22-eemmmaf.git
+
+/Emma Forslund, emfo2102@student.miun.se, 2022
+
+
+
+
 
 
 
