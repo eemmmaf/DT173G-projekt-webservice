@@ -136,16 +136,6 @@ class Food
         return $result->fetch_assoc();
     }
 
-    //Metod för att hämta viss maträtt beroende på vilken typ(förrätt/varmrätt/efterrätt/snack)
-    public function getfoodByCategory(int $food_category): array
-    {
-
-        $sql = "SELECT * FROM food WHERE food_category_id=$food_category;";
-        $result = mysqli_query($this->db, $sql);
-
-        return $result->fetch_assoc();
-    }
-
     //Destruktor
     function __destruct()
     {

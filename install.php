@@ -58,7 +58,7 @@ $sql .= "CREATE TABLE food_type(
         food_type_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
         food_type_name VARCHAR(128) NOT NULL);";
 
-$sql .= "DROP TABLE IF EXISTS tokens, user;";
+$sql .= "DROP TABLE IF EXISTS user;";
 
 $sql .= "CREATE TABLE user(
     username VARCHAR(128) NOT NULL PRIMARY KEY,

@@ -126,13 +126,6 @@ class Drink
         return $result->fetch_assoc();
     }
 
-    public function getDrinkByCategory(int $drink_category): array
-    {
-        $sql = "SELECT * FROM drink WHERE drink_category_id=$drink_category;";
-        $result = mysqli_query($this->db, $sql);
-
-        return $result->fetch_assoc();
-    }
 
 
     //Destruktor
